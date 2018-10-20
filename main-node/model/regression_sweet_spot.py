@@ -287,6 +287,7 @@ class RegressionSweetSpot(Model):
                 }
             }
             io.emit('best point', temp)
+            io.sleep(0)
 
         return self.solution_labels, self.solution_features
 
