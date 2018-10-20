@@ -88,8 +88,8 @@ class StudentRepeater(Repeater):
             # Verifying that deviation of errors in each dimension is
             for index, error in enumerate(relative_errors):
                 # Selecting needed threshold - 100/(1+exp(-x+3.3)) where x is value of measured point divided to default
-                threshold = 100/(1+exp(-float((all_dim_avg.tolist()[0][index] / default_point_backup[index]))+3.3))\
-                            + len(all_experiments) - 2 if default_point_backup else threshold + len(all_experiments)
+                threshold = 100/(1+exp(-float((all_dim_avg.tolist()[0][index] / default_point[index]))+3.3))\
+                            + len(all_experiments) - 2 if default_point else threshold + len(all_experiments)
                 # If for any dimension relative error is > that threshold - abort
                 # print("student_deviation - need more: %s" % str(relative_errors))
                 if error > threshold:
@@ -99,9 +99,8 @@ class StudentRepeater(Repeater):
             result_data_types_short = copy.deepcopy(self.WSClient._result_data_types)
             for index in not_digit_parameters_indexes:
                     result_data_types_short.pop(index)
-            result = [eval(result_data_types_short[index])(round(value, 3))
-                      for index, value in enumerate(all_dim_avg.tolist()[0])]
+            result = [eval(result_data_types_short[index])(round(value, 3)) for index, value in enumerate(all_dim_avg.tolist()[0])]
             not_digit_parameters_indexes.sort()
             for index in not_digit_parameters_indexes:
-                result.insert(index, not_digit_parameters[index])
+                result.insert(index, not_digit_parameters[index]) 
             return result

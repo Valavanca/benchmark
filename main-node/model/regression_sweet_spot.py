@@ -47,7 +47,7 @@ class RegressionSweetSpot(Model):
         :param score_min:
         :param tries:
         :return: True or False
-
+       
         Tries to build the new regression model.
 
         :param degree: Int. scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html
@@ -150,8 +150,8 @@ class RegressionSweetSpot(Model):
             all_predictions = [{'configuration': search_space[index], "prediction": round(prediction[0], 2)}
                                for (prediction, index) in predictions]
             io.emit('regression', {"regression": all_predictions})
-            io.sleep(0)
         label, index = min(predictions)
+        label = list(label)
         return label, search_space[index]
 
     def validate_solution(self, io, task_config, repeater, default_value, predicted_features):
@@ -264,7 +264,7 @@ class RegressionSweetSpot(Model):
                 io.emit('info',
                         {'message': temp_message, "quality": self.solution_labels, "conf": self.solution_features})
                 io.sleep(0)
-
+                
             self.solution_labels = min(self.all_labels)
             index_of_the_best_labels = self.all_labels.index(self.solution_labels)
             self.solution_features = self.all_features[index_of_the_best_labels]
